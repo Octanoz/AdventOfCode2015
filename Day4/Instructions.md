@@ -14,7 +14,7 @@ If your secret key is pqrstuv, the lowest number it combines with to make an MD5
 
 ## Challenge 1
 
-Your puzzle input is bgvyzdsv. <br>
+Your puzzle input is `bgvyzdsv`. <br>
 To mine AdventCoins, you must find Santa the lowest positive number (no leading zeroes: 1, 2, 3, ...) that produces an MD5 hash.
 
 ## Challenge 2
