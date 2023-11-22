@@ -1,11 +1,8 @@
 ﻿using System.Diagnostics;
 
 const int TargetValue = 29_000_000;
-// int house = 500_000;
-// Console.WriteLine(PresentsDeliveredAt(house));
+int house = 500_000;
 
-
-// DeliveryTwo(TargetValue);
 
 int DeliveryOne(int house)
 {
@@ -67,37 +64,19 @@ Func<int, int> presentsForHouseB = house => Enumerable.Range(1, house)
                                                             .Where(elf => house % elf == 0 && house / elf <= 50)
                                                             .Sum() * 11;
 
-Stopwatch sw = new();
-/* sw.Start();
 Console.WriteLine($"My method for the first delivery: {DeliveryOne(house)}");
-sw.Stop();
-Console.WriteLine($"Time elapsed: {sw.Elapsed}\n"); */
+DeliveryTwo(TargetValue);
 
-sw.Start();
 Console.WriteLine($"Method using LINQ: {LINQDeliveryOne(TargetValue)}");
-sw.Stop();
-Console.WriteLine($"Time elapsed: {sw.Elapsed}\n");
-sw.Restart();
 Console.WriteLine($"Method using nested loop: {DeliveryOneLoop(TargetValue)}");
-sw.Stop();
-Console.WriteLine($"Time elapsed: {sw.Elapsed}\n");
-sw.Restart();
 Console.WriteLine($"My method for the second delivery: {DeliveryTwo(TargetValue)}");
-sw.Stop();
-Console.WriteLine($"Time elapsed: {sw.Elapsed}\n");
-sw.Restart();
 Console.WriteLine($"Method using LINQ: {LINQDeliveryTwo(TargetValue)}");
-sw.Stop();
-Console.WriteLine($"Time elapsed: {sw.Elapsed}\n");
-sw.Restart();
 Console.WriteLine($"Method using nested loop: {DeliveryTwoLoop(TargetValue)}");
-sw.Stop();
-Console.WriteLine($"Time elapsed: {sw.Elapsed}");
 
 
 int LINQDeliveryOne(int targetValue)
 {
-    int fact = (2 * 3 * 5 * 7 * 11);
+    int fact = 2 * 3 * 5 * 7 * 11;
     return Enumerable.Range(1, 1_000_000)
                             .Where(n => n % fact == 0)
                             .Select(h => new { House = h, Presents = presentsForHouse(h) })
@@ -106,7 +85,7 @@ int LINQDeliveryOne(int targetValue)
 
 int LINQDeliveryTwo(int targetValue)
 {
-    int factB = (2 * 2 * 2 * 3 * 3);
+    int factB = 2 * 2 * 2 * 3 * 3;
     return Enumerable.Range(700_000, 2_000_000)
                             .Where(n => n % factB == 0)
                             .Select(h => new { House = h, Presents = presentsForHouseB(h) })
