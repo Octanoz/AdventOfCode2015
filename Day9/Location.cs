@@ -50,35 +50,8 @@ class Location
                 RouteFinder(locs, destination, stops - 1, newDistance, routeLengths);
                 locs.Add(destination.Name);
             }
-
-
         }
 
         return routeLengths;
     }
-
-    public static int TSP(int current, HashSet<int> visited, List<string> locations, int[,] distances)
-    {
-        if (visited.Count == locations.Count)
-        {
-            return distances[current, 0]; // Return to the starting location
-        }
-
-        int minDistance = int.MaxValue;
-
-        for (int next = 0; next < locations.Count; next++)
-        {
-            if (!visited.Contains(next))
-            {
-                visited.Add(next);
-                int distance = distances[current, next] + TSP(next, visited, locations, distances);
-                minDistance = Math.Min(minDistance, distance);
-                visited.Remove(next);
-            }
-        }
-
-        return minDistance;
-    }
-
-    public override string ToString() => $"{Name}";
 }
