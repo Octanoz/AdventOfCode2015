@@ -57,7 +57,5 @@ foreach (var line in input)
 
 Console.WriteLine(total);
 
-//? 1871 is too low
-
 #endregion
 

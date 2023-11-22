@@ -7,7 +7,7 @@ They have a list of the dimensions (length l, width w, and height h) of each pre
 
 Fortunately, every present is a box (a perfect right rectangular prism), 
 which makes calculating the required wrapping paper for each gift a little easier: 
-* Find the surface area of the box, which is 2*l*w + 2*w*h + 2*h*l. 
+* Find the surface area of the box, which is 2 x l x w + 2 x w x h + 2 x h x l. 
 * The elves also need a little extra paper for each present: the area of the smallest side.
 
 ## Examples
