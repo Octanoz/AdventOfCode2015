@@ -1,61 +1,46 @@
-﻿#region Solution 1
+﻿using System.Text.RegularExpressions;
 
-/* using System.Text.RegularExpressions;
-
-// string filePath = @"..\Day8\example1.txt";
-string filePath = @"..\Day8\input.txt";
-string[] input = File.ReadAllLines(filePath);
-
-Regex accentSlash = new(@"(\\"")(?<!""$)|(\\\\)");
-Regex hex = new(@"(\\x\d{2})");
-Regex all = new(@"(\\"")(?<!""$)|(\\\\)|(\\x[0-f]{2})");
-
-int total = 0;
-
-foreach (var line in input)
+Dictionary<string, string> filePaths = new()
 {
-    int len = line.Length;
+    ["example1"] = @"..\Day8\example1.txt",
+    ["challenge"] = @"..\Day8\input.txt"
+};
 
-    string correctedString = all.Replace(line, "z");
+string[] input = File.ReadAllLines(filePaths["challenge"]);
 
-    Console.WriteLine(line);
-    Console.WriteLine(correctedString);
-    Console.WriteLine("================");
+Console.WriteLine($"The number of characters of code for string literals minus the number of characters in memory is {PartOne(input)}");
+Console.WriteLine($"The total number of characters in the newly encoded strings is {PartTwo(input)}");
+int PartOne(string[] input)
+{
+    Regex all = new(@"(\\"")(?<!""$)|(\\\\)|(\\x[0-f]{2})");
 
-    int inMemory = correctedString.Length - 2;
-    total += len - inMemory;
+    int total = 0;
+    foreach (var line in input)
+    {
+        int len = line.Length;
+        string correctedString = all.Replace(line, "z");
+        int inMemory = correctedString.Length - 2;
+
+        total += len - inMemory;
+    }
+
+    return total;
 }
 
-Console.WriteLine(total); */
-
-#endregion
-
-#region Solution 2
-
-using System.Text.RegularExpressions;
-
-// string filePath = @"..\Day8\example1.txt";
-string filePath = @"..\Day8\input.txt";
-string[] input = File.ReadAllLines(filePath);
-
-Regex accent = new(@"(\\"")(?<!""$)");
-Regex slash = new(@"(\\)");
-
-int total = 0;
-
-foreach (var line in input)
+int PartTwo(string[] input)
 {
-    int len = line.Length;
+    Regex accent = new(@"(\\"")(?<!""$)");
+    Regex slash = new(@"(\\)");
 
-    string newLine = accent.Replace(line, "1234");
-    newLine = slash.Replace(newLine, "12");
+    int total = 0;
+    foreach (var line in input)
+    {
+        string newLine = accent.Replace(line, "1234");
+        newLine = slash.Replace(newLine, "12");
+        int encoded = 4 + (newLine.Length - line.Length);
 
-    int encoded = 4 + (newLine.Length - line.Length);
+        total += encoded;
+    }
 
-    total += encoded;
+    return total;
 }
-
-Console.WriteLine(total);
-
-#endregion
-

@@ -1,6 +1,6 @@
 namespace Day2;
 
-class Wrapping
+public static class Wrapping
 {
     public static int PaperNeeded(int length, int width, int height)
     {

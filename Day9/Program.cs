@@ -1,9 +1,14 @@
 ﻿using System.Text.RegularExpressions;
 using Day9;
 
-// string filePath = @"..\Day9\example1.txt";
-string filePath = @"..\Day9\input.txt";
-string[] input = File.ReadAllLines(filePath);
+
+Dictionary<string, string> filePaths = new()
+{
+    ["example1"] = @"..\Day9\example1.txt",
+    ["challenge"] = @"..\Day9\input.txt"
+};
+
+string[] input = File.ReadAllLines(filePaths["challenge"]);
 
 int resultOne = PartOne(input);
 Console.WriteLine($"Shortest route was: {resultOne}");
@@ -54,7 +59,6 @@ int PartOne(string[] input)
     }
 
     Location origin = locations.First();
-    Location finalDestination = locations.Last();
     int stops = locations.Count - 1;
 
     List<int> result = origin.VisitAllLocations(locations, stops, 0, new List<int>());

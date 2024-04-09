@@ -1,44 +1,43 @@
-﻿
-#region Solution 1
-/* using Day2;
+﻿using Day2;
 
-// string filePath = @"..\Day2\example1.txt";
-string filePath = @"..\Day2\input.txt";
-
-string[] input = File.ReadAllLines(filePath);
-int total = 0;
-
-foreach (var line in input)
+Dictionary<string, string> filePaths = new()
 {
-    int[] dimensions = line.Split('x').Select(int.Parse).ToArray();
+    ["example1"] = @"..\Day2\example1.txt",
+    ["challenge"] = @"..\Day2\input.txt"
+};
 
-    int result = Wrapping.PaperNeeded(dimensions[0], dimensions[1], dimensions[2]);
-    total += result;
+Console.WriteLine($"The elves should order {PartOne(filePaths["challenge"])} square feet of wrapping paper.");
+Console.WriteLine($"The elves should order {PartTwo(filePaths["challenge"])} feet of ribbon.");
+
+
+int PartOne(string filePath)
+{
+    string[] input = File.ReadAllLines(filePath);
+
+    int total = 0;
+    foreach (var line in input)
+    {
+        int[] dimensions = line.Split('x').Select(int.Parse).ToArray();
+
+        int result = Wrapping.PaperNeeded(dimensions[0], dimensions[1], dimensions[2]);
+        total += result;
+    }
+
+    return total;
 }
 
-Console.WriteLine(total); */
-
-#endregion
-
-#region Solution 2
-
-using Day2;
-
-// string filePath = @"..\Day2\example1.txt";
-string filePath = @"..\Day2\input.txt";
-
-string[] input = File.ReadAllLines(filePath);
-int total = 0;
-
-foreach (var line in input)
+int PartTwo(string filePath)
 {
-    int[] dimensions = line.Split('x').Select(int.Parse).ToArray();
+    string[] input = File.ReadAllLines(filePath);
+    int total = 0;
 
-    int result = Wrapping.RibbonNeeded(dimensions[0], dimensions[1], dimensions[2]);
-    total += result;
+    foreach (var line in input)
+    {
+        int[] dimensions = line.Split('x').Select(int.Parse).ToArray();
+
+        int result = Wrapping.RibbonNeeded(dimensions[0], dimensions[1], dimensions[2]);
+        total += result;
+    }
+
+    return total;
 }
-
-Console.WriteLine(total);
-
-#endregion
-

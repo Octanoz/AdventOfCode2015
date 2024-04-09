@@ -1,60 +1,20 @@
-﻿
-#region Solution 1
-
-/* using System.Security.Cryptography;
-using System.Text;
-
-string filePath = @"..\Day4\example1.txt";
-string[] input = File.ReadAllLines(filePath);
-
-foreach (var line in input)
-{
-    int num = 1;
-    string hashResult = "";
-
-    while (!hashResult.StartsWith("00000"))
-    {
-        using (MD5 md5 = MD5.Create())
-        {
-            string data = line + num.ToString();
-            byte[] dataBytes = Encoding.UTF8.GetBytes(data);
-            byte[] hashBytes = MD5.HashData(dataBytes);
-            StringBuilder sb = new();
-
-            for (int i = 0; i < hashBytes.Length; i++)
-            {
-                sb.Append(hashBytes[i].ToString("x2"));
-            }
-            hashResult = sb.ToString();
-        }
-
-        num++;
-    }
-
-    Console.WriteLine($"The lowest number to produce 5 starting zeroes for key {line} is: {num - 1}");
-} */
-
-
-#endregion
-
-#region Solution 2
-
+﻿using System.Text;
 using System.Security.Cryptography;
-using System.Text;
 
-string filePath = @"..\Day4\example1.txt";
-string[] input = File.ReadAllLines(filePath);
+Console.WriteLine($"The lowest number to produce 5 starting zeroes for key 'yzbqklnj' is: {PartOne("00000")}");
+Console.WriteLine($"The lowest numnber to produce 6 starting zeroes for key 'yzbqklnj' is: {PartTwo("000000")}");
 
-foreach (var line in input)
+int PartOne(string zeroes)
 {
     int num = 1;
     string hashResult = "";
+    string input = "yzbqklnj";
 
-    while (!hashResult.StartsWith("000000"))
+    while (!hashResult.StartsWith(zeroes))
     {
         using (MD5 md5 = MD5.Create())
         {
-            string data = line + num.ToString();
+            string data = input + num.ToString();
             byte[] dataBytes = Encoding.UTF8.GetBytes(data);
             byte[] hashBytes = MD5.HashData(dataBytes);
             StringBuilder sb = new();
@@ -69,8 +29,34 @@ foreach (var line in input)
         num++;
     }
 
-    Console.WriteLine($"The lowest number to produce 5 starting zeroes for key {line} is: {num - 1}");
+    return num - 1;
 }
 
-#endregion
+int PartTwo(string zeroes)
+{
+    int num = 1;
+    string hashResult = "";
+    string input = "yzbqklnj";
+
+    while (!hashResult.StartsWith(zeroes))
+    {
+        using (MD5 md5 = MD5.Create())
+        {
+            string data = input + num.ToString();
+            byte[] dataBytes = Encoding.UTF8.GetBytes(data);
+            byte[] hashBytes = MD5.HashData(dataBytes);
+            StringBuilder sb = new();
+
+            for (int i = 0; i < hashBytes.Length; i++)
+            {
+                sb.Append(hashBytes[i].ToString("x2"));
+            }
+            hashResult = sb.ToString();
+        }
+
+        num++;
+    }
+
+    return num - 1;
+}
 

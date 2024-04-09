@@ -1,72 +1,67 @@
-﻿#region Solution 1
-
-/* using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Day6;
 
 string filePath = @"..\Day6\input.txt";
 string[] input = File.ReadAllLines(filePath);
-Regex regex = new(@"(\d+)[,\s]?");
 
-bool[,] lightGrid = new bool[1000, 1000];
+Console.WriteLine($"In part one, {PartOne(input)} lights are lit.");
+Console.WriteLine($"In part two, the total brightness is {PartTwo(input)}.");
 
-foreach (var line in input)
+int PartOne(string[] input)
 {
-    var coords = regex.Matches(line).Cast<Match>().Select(match => int.Parse(match.Groups[1].Value)).ToArray();
-    (int, int) start = (coords[0], coords[1]);
-    (int, int) end = (coords[2], coords[3]);
+    Regex regex = new(@"(\d+)[,\s]?");
 
-    if (line.StartsWith("turn on"))
+    bool[,] lightGrid = new bool[1000, 1000];
+
+    foreach (var line in input)
     {
-        LightSwitch.TurnOnRange(lightGrid, start, end);
+        var coords = regex.Matches(line).Cast<Match>().Select(match => int.Parse(match.Groups[1].Value)).ToArray();
+        (int, int) start = (coords[0], coords[1]);
+        (int, int) end = (coords[2], coords[3]);
+
+        if (line.StartsWith("turn on"))
+        {
+            LightSwitch.TurnOnRange(lightGrid, start, end);
+        }
+        else if (line.StartsWith("turn off"))
+        {
+            LightSwitch.TurnOffRange(lightGrid, start, end);
+        }
+        else
+        {
+            LightSwitch.ToggleRange(lightGrid, start, end);
+        }
     }
-    else if (line.StartsWith("turn off"))
-    {
-        LightSwitch.TurnOffRange(lightGrid, start, end);
-    }
-    else
-    {
-        LightSwitch.ToggleRange(lightGrid, start, end);
-    }
+
+    return lightGrid.Cast<bool>().Count(b => b);
 }
 
 
-int lightOn = lightGrid.Cast<bool>().Count(x => x);
-Console.WriteLine(lightOn); */
-
-#endregion
-
-#region Solution 2
-
-using System.Text.RegularExpressions;
-using Day6;
-
-string filePath = @"..\Day6\input.txt";
-string[] input = File.ReadAllLines(filePath);
-Regex regex = new(@"(\d+)[,\s]?");
-
-int[,] lightGrid = new int[1000, 1000];
-
-foreach (var line in input)
+int PartTwo(string[] input)
 {
-    int[] coords = regex.Matches(line).Cast<Match>().Select(match => int.Parse(match.Groups[1].Value)).ToArray();
-    (int, int) start = (coords[0], coords[1]);
-    (int, int) end = (coords[2], coords[3]);
+    Regex regex = new(@"(\d+)[,\s]?");
 
-    if (line.StartsWith("turn on"))
+    int[,] lightGrid = new int[1000, 1000];
+
+    foreach (var line in input)
     {
-        IntLightSwitch.TurnOnRange(lightGrid, start, end);
+        int[] coords = regex.Matches(line).Cast<Match>().Select(match => int.Parse(match.Groups[1].Value)).ToArray();
+        (int, int) start = (coords[0], coords[1]);
+        (int, int) end = (coords[2], coords[3]);
+
+        if (line.StartsWith("turn on"))
+        {
+            IntLightSwitch.TurnOnRange(lightGrid, start, end);
+        }
+        else if (line.StartsWith("turn off"))
+        {
+            IntLightSwitch.TurnOffRange(lightGrid, start, end);
+        }
+        else
+        {
+            IntLightSwitch.ToggleRange(lightGrid, start, end);
+        }
     }
-    else if (line.StartsWith("turn off"))
-    {
-        IntLightSwitch.TurnOffRange(lightGrid, start, end);
-    }
-    else
-    {
-        IntLightSwitch.ToggleRange(lightGrid, start, end);
-    }
+
+    return lightGrid.Cast<int>().Sum();
 }
-
-int brightness = lightGrid.Cast<int>().Sum();
-Console.WriteLine(brightness);
-
-#endregion
