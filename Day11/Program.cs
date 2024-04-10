@@ -1,16 +1,15 @@
 ﻿using System.Text.RegularExpressions;
 
-// string test1 = "abcdefgh";
-// string test2 = "ghijklmn";
-// string input = "hxbxwxba";
-string input2 = "hxbxxyzz";
+Dictionary<string, string> inputs = new()
+{
+    ["test1"] = "abcdefgh",
+    ["test2"] = "ghijklmn",
+    ["input"] = "cqjxjnds",
+    ["input2"] = "cqjxxyzz"
+};
 
-Regex pairs = new(@"(\w)\1.*(\w)\2");
-Regex illegal = new(@"(i|l|o)");
-
-string result = NextValidPassword(input2);
-
-Console.WriteLine(result);
+Console.WriteLine($"Santa's next password should be {NextValidPassword(inputs["input"])}");
+Console.WriteLine($"The password after that should be {NextValidPassword(inputs["input2"])}");
 
 string NextValidPassword(string input)
 {
@@ -42,6 +41,8 @@ void AddOne(char[] password)
 
 bool IsValidPassword(char[] password)
 {
+    Regex pairs = new(@"(\w)\1.*(\w)\2");
+    Regex illegal = new(@"(i|l|o)");
     string checkString = new(password);
 
     if (illegal.IsMatch(checkString))

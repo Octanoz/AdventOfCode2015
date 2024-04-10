@@ -1,46 +1,51 @@
-﻿#region MoreLinq Solution
+﻿// #define MORELINQ
+#define REGULAR
+// #define VISUALIZE
 
 using MoreLinq;
 
-/* // string filePath = @"..\Day17\example1.txt";
-string filePath = @"..\Day17\input.txt";
-string[] input = File.ReadAllLines(filePath);
-// const int eggnog = 25;
-const int eggnog = 150;
+Dictionary<string, string> filePaths = new()
+{
+    ["example1"] = @"..\Day17\example1.txt",
+    ["challenge"] = @"..\Day17\input.txt"
+};
+
+Dictionary<string, int> eggnogs = new()
+{
+    ["test"] = 25,
+    ["challenge"] = 150
+};
+
+string[] input = File.ReadAllLines(filePaths["challenge"]);
 int[] containers = input.Select(int.Parse).ToArray();
 
-var combos = containers.Subsets().Where(subsets => subsets.Sum() == eggnog).ToList();
-int shortestCombo = combos.Min(list => list.Count);
-var shortestLists = combos.Where(list => list.Count == shortestCombo).ToList(); */
+#if MORELINQ
 
-/* foreach (var combo in combos)
+var combos = containers.Subsets().Where(subsets => subsets.Sum() == eggnogs["challenge"]).ToList();
+int shortestCombo = combos.Min(list => list.Count);
+var shortestLists = combos.Where(list => list.Count == shortestCombo).ToList();
+
+#if VISUALIZE
+foreach (var combo in combos)
 {
     Console.WriteLine(String.Join(", ", combo));
-} */
+}
+#endif
 
-/* foreach (var list in shortestLists)
+foreach (var list in shortestLists)
 {
     Console.WriteLine(String.Join(" ", list));
 }
 
 Console.WriteLine($"\nThere is a total of {combos.Count} combinations.");
 Console.WriteLine($"Shortest combo is {shortestCombo} containers.");
-Console.WriteLine($"Possible combinations with {shortestCombo} containers is {shortestLists.Count}"); */
+Console.WriteLine($"Possible combinations with {shortestCombo} containers is {shortestLists.Count}");
 
-#endregion
+#elif REGULAR
 
-#region Regular Solution
-
-// string filePath = @"..\Day17\example1.txt";
-string filePath = @"..\Day17\input.txt";
-string[] input = File.ReadAllLines(filePath);
-// const int Eggnog = 25;
-const int Eggnog = 150;
-
-int[] containers = input.Select(int.Parse).ToArray();
 containers = containers.OrderDescending().ToArray();
 
-var combinations = StoreOptions(Eggnog, containers);
+var combinations = StoreOptions(eggnogs["challenge"], containers);
 
 var shortestCombo = combinations.Min(dict => dict.Sum(pair => pair.Value));
 var shortestCombos = combinations.Where(dict => dict.Values.Sum() == shortestCombo).ToList();
@@ -86,6 +91,5 @@ List<Dictionary<int, int>> StoreOptions(int target, int[] containers)
     }
 }
 
-#endregion
-
+#endif
 

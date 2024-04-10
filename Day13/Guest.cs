@@ -40,12 +40,12 @@ class Guest
                 return;
             }
 
-            foreach (var nb in head.Neighbours)
+            foreach (var neighbourName in head.Neighbours.Select(kvp => kvp.Key.Name))
             {
-                if (!seating.Contains(nb.Key.Name) || nb.Key.Name == head.Name)
+                if (!seating.Contains(neighbourName) || neighbourName == head.Name)
                     continue;
 
-                Guest next = guests.First(seat => seat.Name == nb.Key.Name);
+                Guest next = guests.First(seat => seat.Name == neighbourName);
                 int newHappiness = happiness + current.Neighbours[next] + next.Neighbours[current];
                 seating.Remove(next.Name);
                 Seater(seating, next, head, seats - 1, newHappiness, totalHappiness);

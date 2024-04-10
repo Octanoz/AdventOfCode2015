@@ -43,11 +43,8 @@ record Light(int Row, int Col)
         }
     }
 
-    public static Dictionary<(int, int), char> NewState(Dictionary<(int, int), char> grid)
+    public static Dictionary<(int, int), char> NewState(Dictionary<(int, int), char> grid, bool isPartTwo = false)
     {
-        //Part 2
-        /* (int, int) maxCoord = grid.Max(pair => pair.Key);
-        List<(int, int)> corners = new() { (0, 0), (0, maxCoord.Item2), (maxCoord.Item1, 0), maxCoord }; */
 
         Dictionary<(int, int), char> newState = new();
 
@@ -56,13 +53,6 @@ record Light(int Row, int Col)
 
         foreach (var kvp in grid)
         {
-            //Part 2
-            /* if (corners.Contains(kvp.Key))
-            {
-                newState.Add(kvp.Key, '#');
-                continue;
-            } */
-
             int row = kvp.Key.Item1;
             int col = kvp.Key.Item2;
             int count = 0;

@@ -1,101 +1,148 @@
-﻿using Day18;
+﻿#define DICTIONARY
+#define ARRAY2D
+// #define VISUALIZE //Lots of flashing, probably want to leave this commented out if you're sensitive to that.
 
-#region Solution with Dictionary
+using Day18;
 
-// string filePath = @"..\Day18\example1.txt";
-/* string filePath = @"..\Day18\input.txt";
-string[] input = File.ReadAllLines(filePath);
-
-int rows = input.Length;
-int cols = input[0].Length;
-
-Dictionary<(int, int), char> lightsStates = new();
-
-for (int row = 0; row < rows; row++)
+Dictionary<string, string> filePaths = new()
 {
-    for (int col = 0; col < cols; col++)
+    ["example1"] = @"..\Day18\example1.txt",
+    ["challenge"] = @"..\Day18\input.txt"
+};
+
+Dictionary<string, int> steps = new()
+{
+    ["test1"] = 4,
+    ["test2"] = 5,
+    ["challenge"] = 100
+};
+
+string[] input = File.ReadAllLines(filePaths["challenge"]);
+
+#if DICTIONARY
+Console.WriteLine($"Number of lights on after {steps["challenge"]} steps: {NumberOfLightsOn(input, steps["challenge"], true)}");
+#elif ARRAY2D
+Console.WriteLine($"Number of lights on after {steps["challenge"]} steps: {NumberOfLightsOn2DGrid(input, steps["challenge"], true)}");
+#endif
+
+#if DICTIONARY
+
+int NumberOfLightsOn(string[] input, int steps, bool isPartTwo = false)
+{
+    int rows = input.Length;
+    int cols = input[0].Length;
+
+    Dictionary<(int, int), char> lightsStates = new();
+
+    for (int row = 0; row < rows; row++)
     {
-        lightsStates.Add((row, col), input[row][col]);
+        for (int col = 0; col < cols; col++)
+        {
+            lightsStates.Add((row, col), input[row][col]);
+        }
     }
-}
 
-//Part 2
-(int, int) maxCoord = lightsStates.Max(pair => pair.Key);
-List<(int, int)> corners = new() { (0, 0), (0, maxCoord.Item2), (maxCoord.Item1, 0), maxCoord };
-
-foreach (var corner in corners)
-{
-    lightsStates[corner] = '#';
-}
-
-Light.DrawLightDict(lightsStates, rows, cols);
-Console.WriteLine();
-
-int index = 0;
-while (index < 1000)
-{
-    lightsStates = Light.NewState(lightsStates);
-    Console.Clear();
-    Light.DrawLightDict(lightsStates, rows, cols);
-    Thread.Sleep(50);
-
-    // int lightsCount = lightsStates.Count(kvp => kvp.Value == '#');
-    // Console.WriteLine(lightsCount);
-
-    // Console.WriteLine();
-    index++;
-}
-
-int lightsOn = lightsStates.Count(kvp => kvp.Value == '#');
-Console.WriteLine(lightsOn); */
-
-#endregion
-
-#region Solution with 2D array
-
-// string filePath = @"..\Day18\example1.txt";
-string filePath = @"..\Day18\input.txt";
-string[] input = File.ReadAllLines(filePath);
-
-int rows = input.Length;
-int cols = input[0].Length;
-
-Dictionary<(int, int), char> lightsStates = new();
-char[,] lightGrid = new char[rows, cols];
-
-for (int row = 0; row < rows; row++)
-{
-    for (int col = 0; col < cols; col++)
+    if (isPartTwo)
     {
-        lightGrid[row, col] = input[row][col];
+        (int, int) maxCoord = lightsStates.Max(pair => pair.Key);
+        List<(int, int)> corners = new() { (0, 0), (0, maxCoord.Item2), (maxCoord.Item1, 0), maxCoord };
+
+        foreach (var corner in corners)
+        {
+            lightsStates[corner] = '#';
+        }
+
+        int index = 0;
+        while (index < steps)
+        {
+            lightsStates = Light.NewState(lightsStates);
+
+            foreach (var corner in corners)
+            {
+                lightsStates[corner] = '#';
+            }
+
+            index++;
+        }
     }
+    else
+    {
+        int index = 0;
+        while (index < steps)
+        {
+            lightsStates = Light.NewState(lightsStates);
+
+#if VISUALIZE
+        Console.Clear();
+        Light.DrawLightDict(lightsStates, rows, cols);
+        Thread.Sleep(50);
+#endif
+
+            index++;
+        }
+    }
+
+    return lightsStates.Count(kvp => kvp.Value == '#');
 }
 
-//Part 2
-/* (int, int) maxCoord = (lightGrid.GetLength(0) - 1, lightGrid.GetLength(1) - 1);
-List<(int, int)> corners = new() { (0, 0), (0, maxCoord.Item2), (maxCoord.Item1, 0), maxCoord };
 
-foreach (var corner in corners)
+#elif ARRAY2D
+
+int NumberOfLightsOn2DGrid(string[] input, int steps, bool isPartTwo = false)
 {
-    lightGrid[corner.Item1, corner.Item2] = '#';
-} */
 
-Light.DrawLightGrid(lightGrid, rows, cols);
-Console.WriteLine();
+    int rows = input.Length;
+    int cols = input[0].Length;
 
-int index = 0;
-while (index < 1000)
-{
-    lightGrid = Light.NewStateArray(lightGrid);
+    char[,] lightGrid = new char[rows, cols];
+
+    for (int row = 0; row < rows; row++)
+    {
+        for (int col = 0; col < cols; col++)
+        {
+            lightGrid[row, col] = input[row][col];
+        }
+    }
+
+    if (isPartTwo)
+    {
+        (int, int) maxCoord = (lightGrid.GetLength(0) - 1, lightGrid.GetLength(1) - 1);
+        List<(int, int)> corners = new() { (0, 0), (0, maxCoord.Item2), (maxCoord.Item1, 0), maxCoord };
+
+        foreach (var corner in corners)
+        {
+            lightGrid[corner.Item1, corner.Item2] = '#';
+        }
+
+        int index = 0;
+        while (index < steps)
+        {
+            lightGrid = Light.NewStateArray(lightGrid);
+            foreach (var corner in corners)
+            {
+                lightGrid[corner.Item1, corner.Item2] = '#';
+            }
+
+            index++;
+        }
+    }
+    else
+    {
+        int index = 0;
+        while (index < steps)
+        {
+            lightGrid = Light.NewStateArray(lightGrid);
+
+#if VISUALIZE
     Console.Clear();
     Light.DrawLightGrid(lightGrid, rows, cols);
     Thread.Sleep(200);
-    index++;
+#endif
+            index++;
+        }
+    }
+
+    return Light.CountLightsOn(lightGrid);
 }
 
-int lightsOn = Light.CountLightsOn(lightGrid);
-Console.WriteLine(lightsOn);
-
-#endregion
-
-
+#endif
