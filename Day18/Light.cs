@@ -19,18 +19,6 @@ record Light(int Row, int Col)
         return count;
     }
 
-    public static void DrawLightDict(Dictionary<(int, int), char> grid, int rows, int cols)
-    {
-        for (int row = 0; row < rows; row++)
-        {
-            for (int col = 0; col < cols; col++)
-            {
-                Console.Write($"{grid[(row, col)]} ");
-            }
-            Console.WriteLine();
-        }
-    }
-
     public static void DrawLightGrid(char[,] grid, int rows, int cols)
     {
         for (int row = 0; row < rows; row++)
@@ -41,50 +29,6 @@ record Light(int Row, int Col)
             }
             Console.WriteLine();
         }
-    }
-
-    public static Dictionary<(int, int), char> NewState(Dictionary<(int, int), char> grid, bool isPartTwo = false)
-    {
-
-        Dictionary<(int, int), char> newState = new();
-
-        int[] deltaRow = { -1, -1, -1, 0, 0, 1, 1, 1 };
-        int[] deltaCol = { -1, 0, 1, -1, 1, -1, 0, 1 };
-
-        foreach (var kvp in grid)
-        {
-            int row = kvp.Key.Item1;
-            int col = kvp.Key.Item2;
-            int count = 0;
-
-            for (int i = 0; i < 8; i++)
-            {
-                if (grid.ContainsKey((row + deltaRow[i], col + deltaCol[i])))
-                {
-                    if (grid[(row + deltaRow[i], col + deltaCol[i])] == '#')
-                        count++;
-                }
-            }
-
-            if (kvp.Value == '.')
-            {
-                if (count == 3)
-                {
-                    newState.Add(kvp.Key, '#');
-                }
-                else newState.Add(kvp.Key, kvp.Value);
-            }
-            else if (kvp.Value == '#')
-            {
-                if (count == 2 || count == 3)
-                {
-                    newState.Add(kvp.Key, kvp.Value);
-                }
-                else newState.Add(kvp.Key, '.');
-            }
-        }
-
-        return newState;
     }
 
     public static char[,] NewStateArray(char[,] grid)

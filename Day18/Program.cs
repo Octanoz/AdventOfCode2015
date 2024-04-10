@@ -1,5 +1,4 @@
-﻿#define DICTIONARY
-#define ARRAY2D
+﻿
 // #define VISUALIZE //Lots of flashing, probably want to leave this commented out if you're sensitive to that.
 
 using Day18;
@@ -19,74 +18,7 @@ Dictionary<string, int> steps = new()
 
 string[] input = File.ReadAllLines(filePaths["challenge"]);
 
-#if DICTIONARY
-Console.WriteLine($"Number of lights on after {steps["challenge"]} steps: {NumberOfLightsOn(input, steps["challenge"], true)}");
-#elif ARRAY2D
 Console.WriteLine($"Number of lights on after {steps["challenge"]} steps: {NumberOfLightsOn2DGrid(input, steps["challenge"], true)}");
-#endif
-
-#if DICTIONARY
-
-int NumberOfLightsOn(string[] input, int steps, bool isPartTwo = false)
-{
-    int rows = input.Length;
-    int cols = input[0].Length;
-
-    Dictionary<(int, int), char> lightsStates = new();
-
-    for (int row = 0; row < rows; row++)
-    {
-        for (int col = 0; col < cols; col++)
-        {
-            lightsStates.Add((row, col), input[row][col]);
-        }
-    }
-
-    if (isPartTwo)
-    {
-        (int, int) maxCoord = lightsStates.Max(pair => pair.Key);
-        List<(int, int)> corners = new() { (0, 0), (0, maxCoord.Item2), (maxCoord.Item1, 0), maxCoord };
-
-        foreach (var corner in corners)
-        {
-            lightsStates[corner] = '#';
-        }
-
-        int index = 0;
-        while (index < steps)
-        {
-            lightsStates = Light.NewState(lightsStates);
-
-            foreach (var corner in corners)
-            {
-                lightsStates[corner] = '#';
-            }
-
-            index++;
-        }
-    }
-    else
-    {
-        int index = 0;
-        while (index < steps)
-        {
-            lightsStates = Light.NewState(lightsStates);
-
-#if VISUALIZE
-        Console.Clear();
-        Light.DrawLightDict(lightsStates, rows, cols);
-        Thread.Sleep(50);
-#endif
-
-            index++;
-        }
-    }
-
-    return lightsStates.Count(kvp => kvp.Value == '#');
-}
-
-
-#elif ARRAY2D
 
 int NumberOfLightsOn2DGrid(string[] input, int steps, bool isPartTwo = false)
 {
@@ -144,5 +76,3 @@ int NumberOfLightsOn2DGrid(string[] input, int steps, bool isPartTwo = false)
 
     return Light.CountLightsOn(lightGrid);
 }
-
-#endif
