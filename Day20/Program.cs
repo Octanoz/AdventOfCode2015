@@ -1,28 +1,9 @@
-﻿using System.Diagnostics;
+﻿
+const int TargetValue = 33_100_000;
 
-const int TargetValue = 29_000_000;
-int house = 500_000;
-
-
-int DeliveryOne(int house)
-{
-    int index = house;
-    int currentValue = 0;
-
-    while (currentValue <= TargetValue)
-    {
-        index += 20;
-
-        if (index % 20 == 0)
-        {
-            currentValue = index + Enumerable.Range(1, index).Where(j => index % j == 0).Sum() * 10;
-        }
-    }
-
-    Console.WriteLine($"House {index}, {currentValue} presents delivered.");
-
-    return index;
-}
+Console.WriteLine($"Method using nested loop, part one: {DeliveryOneLoop(TargetValue)}");
+Console.WriteLine($"Method using nested loop, part two: {DeliveryTwoLoop(TargetValue)}");
+Console.WriteLine($"Alternative method for the second delivery: {DeliveryTwo(TargetValue)}");
 
 int DeliveryOneLoop(int targetValue)
 {
@@ -56,42 +37,6 @@ int DeliveryTwoLoop(int targetValue)
     return Array.FindIndex(houses, val => val >= targetValue);
 }
 
-Func<int, int> presentsForHouse = number => Enumerable.Range(1, number)
-                                                        .Where(elf => number % elf == 0)
-                                                        .Sum() * 10;
-
-Func<int, int> presentsForHouseB = house => Enumerable.Range(1, house)
-                                                            .Where(elf => house % elf == 0 && house / elf <= 50)
-                                                            .Sum() * 11;
-
-Console.WriteLine($"My method for the first delivery: {DeliveryOne(house)}");
-DeliveryTwo(TargetValue);
-
-Console.WriteLine($"Method using LINQ: {LINQDeliveryOne(TargetValue)}");
-Console.WriteLine($"Method using nested loop: {DeliveryOneLoop(TargetValue)}");
-Console.WriteLine($"My method for the second delivery: {DeliveryTwo(TargetValue)}");
-Console.WriteLine($"Method using LINQ: {LINQDeliveryTwo(TargetValue)}");
-Console.WriteLine($"Method using nested loop: {DeliveryTwoLoop(TargetValue)}");
-
-
-int LINQDeliveryOne(int targetValue)
-{
-    int fact = 2 * 3 * 5 * 7 * 11;
-    return Enumerable.Range(1, 1_000_000)
-                            .Where(n => n % fact == 0)
-                            .Select(h => new { House = h, Presents = presentsForHouse(h) })
-                            .First(house => house.Presents >= targetValue).House;
-}
-
-int LINQDeliveryTwo(int targetValue)
-{
-    int factB = 2 * 2 * 2 * 3 * 3;
-    return Enumerable.Range(700_000, 2_000_000)
-                            .Where(n => n % factB == 0)
-                            .Select(h => new { House = h, Presents = presentsForHouseB(h) })
-                            .First(h => h.Presents >= targetValue).House;
-}
-
 int DeliveryTwo(int TargetValue)
 {
     int[] houses = new int[1_000_000];
@@ -117,26 +62,4 @@ int DeliveryTwo(int TargetValue)
 
     return 0;
 }
-
-
-int PresentsDeliveredAt(int house)
-{
-    int result = 0;
-
-    int number = house;
-
-    while (number > 1)
-    {
-        if (house % number == 0)
-        {
-            result += number * 10;
-        }
-
-        number--;
-    }
-
-    return result;
-}
-
-
 

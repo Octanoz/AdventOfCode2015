@@ -31,7 +31,7 @@ record Light(int Row, int Col)
         }
     }
 
-    public static char[,] NewStateArray(char[,] grid)
+    public static char[,] NewStateGrid(char[,] grid)
     {
         int rows = grid.GetLength(0);
         int cols = grid.GetLength(1);

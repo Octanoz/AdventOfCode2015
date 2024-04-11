@@ -1,4 +1,5 @@
-﻿
+﻿// #define PART1
+#define PART2
 // #define VISUALIZE //Lots of flashing, probably want to leave this commented out if you're sensitive to that.
 
 using Day18;
@@ -18,7 +19,11 @@ Dictionary<string, int> steps = new()
 
 string[] input = File.ReadAllLines(filePaths["challenge"]);
 
+#if PART1
+Console.WriteLine($"Number of lights on after {steps["challenge"]} steps: {NumberOfLightsOn2DGrid(input, steps["challenge"])}");
+#elif PART2
 Console.WriteLine($"Number of lights on after {steps["challenge"]} steps: {NumberOfLightsOn2DGrid(input, steps["challenge"], true)}");
+#endif
 
 int NumberOfLightsOn2DGrid(string[] input, int steps, bool isPartTwo = false)
 {
@@ -49,7 +54,7 @@ int NumberOfLightsOn2DGrid(string[] input, int steps, bool isPartTwo = false)
         int index = 0;
         while (index < steps)
         {
-            lightGrid = Light.NewStateArray(lightGrid);
+            lightGrid = Light.NewStateGrid(lightGrid);
             foreach (var corner in corners)
             {
                 lightGrid[corner.Item1, corner.Item2] = '#';
@@ -63,7 +68,7 @@ int NumberOfLightsOn2DGrid(string[] input, int steps, bool isPartTwo = false)
         int index = 0;
         while (index < steps)
         {
-            lightGrid = Light.NewStateArray(lightGrid);
+            lightGrid = Light.NewStateGrid(lightGrid);
 
 #if VISUALIZE
     Console.Clear();
