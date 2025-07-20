@@ -116,6 +116,21 @@ module Helpers =
 
         let falseGrid maxRow maxCol = Array2D.create maxRow maxCol false
 
+        let countTrue (grid: bool array2d) =
+            [ for r in 0 .. Array2D.length1 grid - 1 do
+                  [ for c in 0 .. Array2D.length2 grid - 1 do
+                        if grid[r, c] then
+                            1 ] ]
+            |> List.concat
+            |> List.sum
+
+        let countTotal (grid: int array2d) =
+            [ for r in 0 .. Array2D.length1 grid - 1 do
+                  [ for c in 0 .. Array2D.length2 grid - 1 do
+                        yield grid[r, c] ] ]
+            |> List.concat
+            |> List.sum
+
         type Direction =
             | Up
             | Right
@@ -132,7 +147,7 @@ module Helpers =
             | Left -> Up
 
         let move num =
-            [ (-1, -1); (-1, 0); (-1, 1); (0, -1); (0, 1); (1, -1); (1, 0); (1, 1) ][num]
+            [ -1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1 ][num]
 
         //up right down left
         let dof4 =
