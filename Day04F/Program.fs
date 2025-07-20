@@ -26,7 +26,7 @@ let findSixZeroes (prefix: string) =
         let hash = MD5.HashData bytes |> Convert.ToHexString
         if hash.StartsWith "000000" then i else searchSix (i + 1)
 
-    searchSix 0
+    searchSix 257546 // Continue from 5 zeroes value
 
 for line in example do
     let result = findFiveZeroes line
