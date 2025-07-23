@@ -1,11 +1,8 @@
-﻿open System.IO
-open AdventUtilities
+﻿open AdventUtilities
 open AdventUtilities.Helpers.StringEx
 
 let inputData = InputData()
-
-let filePath = inputData.GetFilePath 2 "input"
-let input = File.ReadAllLines filePath
+let input = inputData.ReadAllLines 2 "input"
 
 let part1 =
     [ for line in input do

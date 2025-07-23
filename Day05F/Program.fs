@@ -1,10 +1,8 @@
-﻿open System.IO
-open System.Text.RegularExpressions
+﻿open System.Text.RegularExpressions
 open AdventUtilities
 
 let inputData = InputData()
-let filePath = inputData.GetFilePath 5 "input"
-let input = File.ReadAllLines filePath |> List.ofArray
+let input = inputData.ReadAllLines 5 "input" |> List.ofArray
 
 let vowels = [ 'a'; 'e'; 'i'; 'o'; 'u' ]
 let forbidden = [ "ab"; "cd"; "pq"; "xy" ]

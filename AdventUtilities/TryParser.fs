@@ -26,8 +26,7 @@ module TryParser =
         //functions
         let parseInt = tryParseWith Int32.TryParse
 
-        let parseSingle =
-            tryParseWith Single.TryParse >> Option.filter System.Single.IsFinite
+        let parseSingle = tryParseWith Single.TryParse >> Option.filter Single.IsFinite
 
         let parseDouble = tryParseWith System.Double.TryParse
         let parseBigInteger = tryParseWith System.Numerics.BigInteger.TryParse

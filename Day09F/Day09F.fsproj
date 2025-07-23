@@ -5,7 +5,7 @@
     <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup><Compile Include="SantaPathing.fs" />
+  <ItemGroup><Compile Include="Traveller.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

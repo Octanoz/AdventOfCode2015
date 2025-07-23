@@ -1,12 +1,11 @@
 ﻿open System
-open System.IO
 open System.Text
 open System.Security.Cryptography
 open AdventUtilities
 
 let inputData = InputData()
 let filePath = inputData.GetFilePath 4 "example1"
-let example = File.ReadAllLines filePath
+let example = inputData.ReadAllLines 4 "example1"
 
 let input = "bgvyzdsv"
 

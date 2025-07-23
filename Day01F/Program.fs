@@ -1,11 +1,7 @@
-﻿open System.IO
-open AdventUtilities
+﻿open AdventUtilities
 
 let inputData = InputData()
-
-let filePath = inputData.GetFilePath 1 "input"
-
-let input = File.ReadAllText filePath
+let input = inputData.ReadAllText 1 "input"
 
 //Part 1
 input

@@ -118,16 +118,13 @@ module Helpers =
 
         let countTrue (grid: bool array2d) =
             [ for r in 0 .. Array2D.length1 grid - 1 do
-                  [ for c in 0 .. Array2D.length2 grid - 1 do
-                        if grid[r, c] then
-                            1 ] ]
+                  [ for c in 0 .. Array2D.length2 grid - 1 -> grid[r, c] ] ]
             |> List.concat
-            |> List.sum
+            |> List.sumBy (fun b -> if b then 1 else 0)
 
         let countTotal (grid: int array2d) =
             [ for r in 0 .. Array2D.length1 grid - 1 do
-                  [ for c in 0 .. Array2D.length2 grid - 1 do
-                        yield grid[r, c] ] ]
+                  [ for c in 0 .. Array2D.length2 grid - 1 -> grid[r, c] ] ]
             |> List.concat
             |> List.sum
 
