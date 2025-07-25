@@ -1,5 +1,4 @@
-﻿open System
-open PasswordGenerator
+﻿open PasswordGenerator
 
 //Don't include forbidden letters in alphabet or initial input
 let alphabet = "abcdefghjkmnpqrstuvwxyz"

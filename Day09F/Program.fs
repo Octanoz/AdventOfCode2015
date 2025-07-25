@@ -1,4 +1,5 @@
 ﻿open AdventUtilities
+open AdventUtilities.Maths
 open Traveller
 
 let inputData = InputData()

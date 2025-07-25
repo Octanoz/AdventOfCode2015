@@ -45,15 +45,5 @@ let drawGrid (grid: int array2d) =
 
         printfn ""
 
-let rec permutations list =
-    match list with
-    | [] -> [ [] ]
-    | _ ->
-        [ for i in 0 .. list.Length - 1 do
-              let rest = mergeLists list[.. i - 1] list[i + 1 ..]
-
-              for permute in permutations rest do
-                  addItem list[i] permute ]
-
 let routeDistance (grid: int array2d) (path: int list) =
     path |> List.pairwise |> List.sumBy (fun (a, b) -> grid[a, b])

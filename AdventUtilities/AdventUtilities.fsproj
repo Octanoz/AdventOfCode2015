@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Helpers.fs" />
+    <Compile Include="Maths.fs" />
     <Compile Include="TryParser.fs" />
     <Compile Include="InputData.fs" />
   </ItemGroup>
