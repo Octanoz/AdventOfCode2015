@@ -114,19 +114,15 @@ module Helpers =
             let maxCol = input[0].Length
             Array2D.create maxRow maxCol false
 
+        let charGridToBoolGrid (grid: char array2d) =
+            Array2D.init (grid |> Array2D.length1) (grid |> Array2D.length2) (fun r c -> grid[r, c] = '#')
+
         let falseGrid maxRow maxCol = Array2D.create maxRow maxCol false
 
         let countTrue (grid: bool array2d) =
-            [ for r in 0 .. Array2D.length1 grid - 1 do
-                  [ for c in 0 .. Array2D.length2 grid - 1 -> grid[r, c] ] ]
-            |> List.concat
-            |> List.sumBy (fun b -> if b then 1 else 0)
+            grid |> Seq.cast<bool> |> Seq.filter id |> Seq.length
 
-        let countTotal (grid: int array2d) =
-            [ for r in 0 .. Array2D.length1 grid - 1 do
-                  [ for c in 0 .. Array2D.length2 grid - 1 -> grid[r, c] ] ]
-            |> List.concat
-            |> List.sum
+        let countTotal (grid: int array2d) = grid |> Seq.cast<int> |> Seq.sum
 
         type Direction =
             | Up
@@ -155,7 +151,55 @@ module Helpers =
                 move 3
             }
 
+        let dof8 =
+            seq {
+                move 0
+                move 1
+                move 2
+                move 3
+                move 4
+                move 5
+                move 6
+                move 7
+            }
+
         let valueAt (row, col) (grid: 'T array2d) = grid[row, col]
+
+        let drawGrid (grid: 'T array2d) =
+            for r in 0 .. (grid |> Array2D.length1) - 1 do
+                for c in 0 .. (grid |> Array2D.length2) - 1 do
+                    printf "%A " grid[r, c]
+
+                printfn ""
+
+            printfn ""
+
+        let drawTightGrid (grid: 'T array2d) =
+            for r in 0 .. (grid |> Array2D.length1) - 1 do
+                for c in 0 .. (grid |> Array2D.length2) - 1 do
+                    printf "%A" grid[r, c]
+
+                printfn ""
+
+            printfn ""
+
+        let drawCharGrid (grid: char array2d) =
+            for r in 0 .. (grid |> Array2D.length1) - 1 do
+                for c in 0 .. (grid |> Array2D.length2) - 1 do
+                    printf "%c " grid[r, c]
+
+                printfn ""
+
+            printfn ""
+
+        let drawTightCharGrid (grid: char array2d) =
+            for r in 0 .. (grid |> Array2D.length1) - 1 do
+                for c in 0 .. (grid |> Array2D.length2) - 1 do
+                    printf "%c" grid[r, c]
+
+                printfn ""
+
+            printfn ""
 
         let isWithinLimits (row, col) grid =
             let maxRow = grid |> Array2D.length1
@@ -170,6 +214,10 @@ module Helpers =
 
         let checkNeighbours (row, col) grid =
             [ for moveRow, moveCol in dof4 -> movePair (moveRow, moveCol) (row, col) ]
+            |> List.filter (fun (a, b) -> isWithinLimits (a, b) grid)
+
+        let checkEightNeighbours (row, col) grid =
+            [ for moveRow, moveCol in dof8 -> movePair (moveRow, moveCol) (row, col) ]
             |> List.filter (fun (a, b) -> isWithinLimits (a, b) grid)
 
         let getSameValueNeighbours currentPosition (grid: 'T array2d) =
